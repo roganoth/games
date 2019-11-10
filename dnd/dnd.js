@@ -1,5 +1,3 @@
-// var addingTrial = Math.floor(Math.random() * 20) + 1 + 5;
-// console.log(addingTrial);
 var pcClass;
 var pcAC;
 var pcHealth;
@@ -42,30 +40,24 @@ function classChoice() {
 classChoice();
 
 function enemyChoice() {
-    var enemies = ["Skeleton", "Orc", "Dragon Wyrmling"]
+    var enemies = ["Allosaurus", "Brown Bear", "Duergar"]
     var randomEnemy = Math.floor(Math.random() * enemies.length);
     enemyType = enemies[randomEnemy];
 }
 enemyChoice();
 
 function combatStart() {
-    if (enemyType === "Skeleton") {
+    if (enemyType === "Allosaurus") {
         enemyAC = 13;
-        enemyHealth = 13;
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 4;
-        enemyDamage = Math.floor(Math.random() * 6) + 1 + 2;
+        enemyHealth = 51;
     }
-    else if (enemyType === "Orc") {
-        enemyAC = 13;
-        enemyHealth = 15;
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 5;
-        enemyDamage = Math.floor(Math.random() * 12) + 1 + 3;
+    else if (enemyType === "Brown Bear") {
+        enemyAC = 11;
+        enemyHealth = 34;
     }
-    else if (enemyType === "Dragon Wyrmling") {
+    else if (enemyType === "Duergar") {
         enemyAC = 16;
-        enemyHealth = 16;
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 4;
-        enemyDamage = Math.floor(Math.random() * 10) + 1 + 2;
+        enemyHealth = 26;
     }
     console.log("\n===============================");
     console.log("You VS. " + enemyType + "!!");
@@ -192,14 +184,14 @@ function combatRoundFighter() {
         })
 }
 function enemyTurn() {
-    if (enemyType === "Skeleton") {
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 4;
+    if (enemyType === "Allosaurus") {
+        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
         console.log("==========================");
         console.log("A " + enemyAttack + " was rolled to hit.");
         console.log("==========================");
         hitChecker();
         if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 6) + 1 + 2;
+            enemyDamage = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + 4;
             console.log("==========================");
             console.log("You been hit for " + enemyDamage + " damage!");
             console.log("==========================");
@@ -207,29 +199,42 @@ function enemyTurn() {
             healthCheck();
         }
     }
-    else if (enemyType === "Orc") {
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 5;
+    else if (enemyType === "Brown Bear") {
+        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
         console.log("==========================");
         console.log("A " + enemyAttack + " was rolled to hit.");
         console.log("==========================");
         hitChecker();
         if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 12) + 1 + 3;
+            enemyDamage = Math.floor(Math.random() * 8) + 1 + 4;
+            console.log("==========================");
+            console.log("You been hit for " + enemyDamage + " damage!");
+            console.log("==========================");
+            pcHealth -= enemyDamage;
+        }
+        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
+        console.log("==========================");
+        console.log("A " + enemyAttack + " was rolled to hit.");
+        console.log("==========================");
+        hitChecker();
+        if (damage === true) {
+            enemyDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 4;
             console.log("==========================");
             console.log("You been hit for " + enemyDamage + " damage!");
             console.log("==========================");
             pcHealth -= enemyDamage;
             healthCheck();
         }
+
     }
-    else if (enemyType === "Dragon Wyrmling") {
+    else if (enemyType === "Duergar") {
         enemyAttack = Math.floor(Math.random() * 20) + 1 + 4;
         console.log("==========================");
         console.log("A " + enemyAttack + " was rolled to hit.");
         console.log("==========================");
         hitChecker();
         if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 10) + 1 + 2;
+            enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
             console.log("==========================");
             console.log("You been hit for " + enemyDamage + " damage!");
             console.log("==========================");
