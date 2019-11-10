@@ -7,7 +7,7 @@ var enemyAC;
 var enemyAttack;
 var enemyDamage;
 var damage;
-var pcTurn = true;
+var pcTurn;
 
 
 var inquirer = require("inquirer");
@@ -65,6 +65,7 @@ function combatStart() {
     console.log("\nYou have " + pcHealth + " HP");
     console.log("\nYour enemy is undamaged!");
     console.log("\n===============================");
+    pcTurn = true;
     turnChecker();
 }
 
@@ -83,17 +84,17 @@ function turnChecker() {
 }
 
 function healthCheck() {
-    if (enemyHealth < (Math.floor(enemyHealth * .5)) && enemyHealth > 0) {
+    if (enemyHealth < 15 && enemyHealth > 0) {
         console.log("===============================");
         console.log("\nYou have " + pcHealth + " HP");
         console.log("\nYour enemy is bloodied!");
         console.log("\n===============================");
         turnChecker();
     }
-    else if (enemyHealth > (Math.floor(enemyHealth * .5))) {
+    else if (enemyHealth > 15) {
         console.log("===============================");
         console.log("\nYou have " + pcHealth + " HP");
-        console.log("\nYour enemy is undamaged!");
+        console.log("\nYour enemy is healthy!");
         console.log("\n===============================");
         turnChecker();
     }
@@ -137,35 +138,60 @@ function combatRoundFighter() {
             }
         ]).then(function (fight) {
             if (fight.Actions === "Attack") {
-                pcAttack = Math.floor(Math.random() * 20) + 1 + 5;
-                pcturn = false;
-                hitChecker(pcAttack, enemyAC);
-                if (damage === true) {
-                    pcDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 3;
-                    console.log("==========================");
-                    console.log("You rolled a " + pcAttack + " to hit!");
-                    console.log("==========================");
+                var pcD20 = Math.floor(Math.random() * 20) + 1;
+                pcAttack = pcD20 + 5;
+                if (pcD20 === 20) {
+                    var damageDice = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1;
+                    pcDamage = damageDice * 2 + 3;
+                    console.log("=========================");
+                    console.log("You crit for " + pcDamage + " damage!!");
+                    console.log("=========================");
                     enemyHealth -= pcDamage;
-                    console.log("You have dealt " + pcDamage + " damage!");
+                    pcTurn = false;
                     healthCheck();
                 }
                 else {
                     console.log("==========================");
-                    console.log("You missed!");
+                    console.log("You rolled a " + pcAttack + " to hit!");
                     console.log("==========================");
-                    healthCheck();
+                    pcturn = false;
+                    hitChecker(pcAttack, enemyAC);
+                    if (damage === true) {
+                        pcDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 3;
+                        enemyHealth -= pcDamage;
+                        console.log("You have dealt " + pcDamage + " damage!");
+                        healthCheck();
+                    }
+                    else {
+                        console.log("==========================");
+                        console.log("You missed!");
+                        console.log("==========================");
+                        healthCheck();
+                    }
                 }
             }
             if (fight.Actions === "Power Attack") {
-                pcAttack = Math.floor(Math.random() * 20) + 1;
-                pcturn = false;
+                var pcD20 = Math.floor(Math.random() * 20) + 1;
+                pcAttack = pcD20;
+                if (pcD20 === 20) {
+                    var damageDice = Math.floor(Math.random() * 6) + 1 * 2;
+                    pcDamage = damageDice * 2 + 3;
+                    console.log("=========================");
+                    console.log("You crit for " + pcDamage + " damage!!");
+                    console.log("=========================");
+                    enemyHealth -= pcDamage;
+                    pcTurn = false;
+                    healthCheck();
+                }
                 console.log("==========================");
                 console.log("You rolled a " + pcAttack + " to hit!");
                 console.log("==========================");
+                pcturn = false;
                 hitChecker(pcAttack, enemyAC);
                 if (damage === true) {
                     pcDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 13;
                     enemyHealth -= pcDamage;
+                    console.log("You have dealt " + pcDamage + " damage!");
                     healthCheck();
                 }
                 else {
@@ -185,61 +211,103 @@ function combatRoundFighter() {
 }
 function enemyTurn() {
     if (enemyType === "Allosaurus") {
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
-        console.log("==========================");
-        console.log("A " + enemyAttack + " was rolled to hit.");
-        console.log("==========================");
-        hitChecker();
-        if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + 4;
-            console.log("==========================");
-            console.log("You been hit for " + enemyDamage + " damage!");
-            console.log("==========================");
-            pcHealth -= enemyDamage;
+        enemyD20 = Math.floor(Math.random() * 20) + 1
+        enemyAttack = enemyD20 + 6;
+        if (enemyD20 === 20) {
+            var enemyDice = Math.floor(Math.random() * 10) + 1;
+            enemyDamage = enemyDice * 2 + 4;
+            console.log("=========================");
+            console.log("You've been crit for " + enemyDamage + " damage!!");
+            console.log("=========================");
+            pcTurn = true;
             healthCheck();
         }
-    }
-    else if (enemyType === "Brown Bear") {
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
-        console.log("==========================");
-        console.log("A " + enemyAttack + " was rolled to hit.");
-        console.log("==========================");
-        hitChecker();
-        if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 8) + 1 + 4;
+        else {
             console.log("==========================");
-            console.log("You been hit for " + enemyDamage + " damage!");
+            console.log("A " + enemyAttack + " was rolled to hit.");
             console.log("==========================");
-            pcHealth -= enemyDamage;
+            hitChecker();
+            if (damage === true) {
+                enemyDamage = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + 4;
+                console.log("==========================");
+                console.log("You been hit for " + enemyDamage + " damage!");
+                console.log("==========================");
+                pcHealth -= enemyDamage;
+                pcTurn = true;
+                healthCheck();
+            }
         }
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
-        console.log("==========================");
-        console.log("A " + enemyAttack + " was rolled to hit.");
-        console.log("==========================");
-        hitChecker();
-        if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 4;
-            console.log("==========================");
-            console.log("You been hit for " + enemyDamage + " damage!");
-            console.log("==========================");
-            pcHealth -= enemyDamage;
-            healthCheck();
+        if (enemyType === "Brown Bear") {
+            enemyD20 = Math.floor(Math.random() * 20) + 1
+            enemyAttack = enemyD20 + 6;
+            if (enemyD20 === 20) {
+                var enemyDice = Math.floor(Math.random() * 8) + 1;
+                enemyDamage = enemyDice * 2 + 4;
+                console.log("=========================");
+                console.log("You've been crit for " + enemyDamage + " damage!!");
+                console.log("=========================");
+                pcHealth -= enemyDamage;
+                pcTurn = true;
+                healthCheck();
+            }
+            else {
+                console.log("==========================");
+                console.log("A " + enemyAttack + " was rolled to hit.");
+                console.log("==========================");
+                hitChecker();
+                if (damage === true) {
+                    enemyDamage = Math.floor(Math.random() * 8) + 1 + 4;
+                    console.log("==========================");
+                    console.log("You been hit for " + enemyDamage + " damage!");
+                    console.log("==========================");
+                    pcHealth -= enemyDamage;
+                    pcTurn = true;
+                    healthCheck();
+                }
+                enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
+                console.log("==========================");
+                console.log("A " + enemyAttack + " was rolled to hit.");
+                console.log("==========================");
+                hitChecker();
+                if (damage === true) {
+                    enemyDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 4;
+                    console.log("==========================");
+                    console.log("You been hit for " + enemyDamage + " damage!");
+                    console.log("==========================");
+                    pcHealth -= enemyDamage;
+                    pcTurn = true;
+                    healthCheck();
+                }
+            }
         }
-
-    }
-    else if (enemyType === "Duergar") {
-        enemyAttack = Math.floor(Math.random() * 20) + 1 + 4;
-        console.log("==========================");
-        console.log("A " + enemyAttack + " was rolled to hit.");
-        console.log("==========================");
-        hitChecker();
-        if (damage === true) {
-            enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
-            console.log("==========================");
-            console.log("You been hit for " + enemyDamage + " damage!");
-            console.log("==========================");
-            pcHealth -= enemyDamage;
-            healthCheck();
+        else if (enemyType === "Duergar") {
+            enemyD20 = Math.floor(Math.random() * 20) + 1
+            enemyAttack = enemyD20 + 4;
+            if (enemyD20 === 20) {
+                var enemyDice = Math.floor(Math.random() * 8) + 1;
+                enemyDamage = enemyDice * 2 + 2;
+                console.log("=========================");
+                console.log("You've been crit for " + enemyDamage + " damage!!");
+                console.log("=========================");
+                pcHealth -= enemyDamage;
+                pcTurn = true;
+                healthCheck();
+            }
+            else {
+                console.log("==========================");
+                console.log("A " + enemyAttack + " was rolled to hit.");
+                console.log("==========================");
+                hitChecker();
+                if (damage === true) {
+                    enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
+                    console.log("==========================");
+                    console.log("You been hit for " + enemyDamage + " damage!");
+                    console.log("==========================");
+                    pcHealth -= enemyDamage;
+                    pcTurn = true;
+                    healthCheck();
+                }
+            }
         }
     }
 }
