@@ -209,6 +209,98 @@ function combatRoundFighter() {
             }
         })
 }
+
+function combatRoundMage() {
+    var pcDamage;
+    var pcAttack;
+
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Choose your action",
+                choices: ["Chromatic Orb", "Chromatic Orb", "Chromatic Orb", "Fire Bolt", "Flee"],
+                name: "Actions"
+            }
+        ]).then(function (fight) {
+            if (fight.Actions === "Chromatic Orb") {
+                fight.choices.splice(0);
+                console.log(fight.choices);
+                var pcD20 = Math.floor(Math.random() * 20) + 1;
+                pcAttack = pcD20;
+                if (pcD20 === 20) {
+                    var damageDice = Math.floor(Math.random() * 8) + 1 + Math.floor(Math.random() * 8) + 1 + Math.floor(Math.random() * 8) + 1;
+                    pcDamage = damageDice * 2;
+                    console.log("=========================");
+                    console.log("You crit for " + pcDamage + " damage!!");
+                    console.log("=========================");
+                    enemyHealth -= pcDamage;
+                    pcTurn = false;
+                    healthCheck();
+                }
+                else {
+                    console.log("==========================");
+                    console.log("You rolled a " + pcAttack + " to hit!");
+                    console.log("==========================");
+                    pcturn = false;
+                    hitChecker(pcAttack, enemyAC);
+                    if (damage === true) {
+                        pcDamage = Math.floor(Math.random() * 8) + 1 + Math.floor(Math.random() * 8) + 1 + Math.floor(Math.random() * 8) + 1;
+                        enemyHealth -= pcDamage;
+                        console.log("You have dealt " + pcDamage + " damage!");
+                        healthCheck();
+                    }
+                    else {
+                        console.log("==========================");
+                        console.log("You missed!");
+                        console.log("==========================");
+                        healthCheck();
+                    }
+                }
+            }
+            if (fight.Actions === "Fire Bolt") {
+                var pcD20 = Math.floor(Math.random() * 20) + 1;
+                pcAttack = pcD20 + 5;
+                if (pcD20 === 20) {
+                    var damageDice = Math.floor(Math.random() * 10) + 1;
+                    pcDamage = damageDice * 2;
+                    console.log("=========================");
+                    console.log("You crit for " + pcDamage + " damage!!");
+                    console.log("=========================");
+                    enemyHealth -= pcDamage;
+                    pcTurn = false;
+                    healthCheck();
+                }
+                else {
+                    console.log("==========================");
+                    console.log("You rolled a " + pcAttack + " to hit!");
+                    console.log("==========================");
+                    pcturn = false;
+                    hitChecker(pcAttack, enemyAC);
+                    if (damage === true) {
+                        pcDamage = Math.floor(Math.random() * 10) + 1;
+                        enemyHealth -= pcDamage;
+                        console.log("You have dealt " + pcDamage + " damage!");
+                        healthCheck();
+                    }
+                    else {
+                        console.log("==========================");
+                        console.log("You missed!");
+                        console.log("==========================");
+                        healthCheck();
+                    }
+                }
+            }
+            if (fight.Actions === "Flee") {
+                console.log("==========================");
+                console.log("You've successfully fled. Better to live and fight another day.");
+                console.log("==========================");
+                process.exit();
+            }
+
+        })
+}
+
 function enemyTurn() {
     if (enemyType === "Allosaurus") {
         enemyD20 = Math.floor(Math.random() * 20) + 1
@@ -304,7 +396,7 @@ function enemyTurn() {
                     console.log("You been hit for " + enemyDamage + " damage!");
                     console.log("==========================");
                     pcHealth -= enemyDamage;
-                    pcTurn = true;
+                    pcTurn = true; 0
                     healthCheck();
                 }
             }
