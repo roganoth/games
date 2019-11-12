@@ -8,6 +8,8 @@ var enemyAttack;
 var enemyDamage;
 var damage;
 var pcTurn;
+var originalEnemyHealth;
+var pcStartingHealth;
 
 
 var inquirer = require("inquirer");
@@ -50,14 +52,17 @@ function combatStart() {
     if (enemyType === "Allosaurus") {
         enemyAC = 13;
         enemyHealth = 51;
+        originalEnemyHealth = 51;
     }
     else if (enemyType === "Brown Bear") {
         enemyAC = 11;
         enemyHealth = 34;
+        originalEnemyHealth = 34;
     }
     else if (enemyType === "Duergar") {
         enemyAC = 16;
         enemyHealth = 26;
+        originalEnemyHealth = 26;
     }
     console.log("\n===============================");
     console.log("You VS. " + enemyType + "!!");
@@ -84,22 +89,38 @@ function turnChecker() {
 }
 
 function healthCheck() {
-    if (enemyHealth < 15 && enemyHealth > 0) {
-        console.log("===============================");
+    if (enemyHealth <= (originalEnemyHealth / 2) && enemyHealth > (originalEnemyHealth / 10)) {
+        console.log("\n===============================");
         console.log("\nYou have " + pcHealth + " HP");
         console.log("\nYour enemy is bloodied!");
         console.log("\n===============================");
         turnChecker();
     }
-    else if (enemyHealth > 15) {
-        console.log("===============================");
+    if (enemyHealth <= (originalEnemyHealth / 10) && enemyHealth > 0) {
+        console.log("\n===============================");
+        console.log("\nYou have " + pcHealth + " HP");
+        console.log("\nYour enemy is at death's door!");
+        console.log("\n===============================");
+        turnChecker();
+    }
+
+    else if (enemyHealth > (originalEnemyHealth / 2) && enemyHealth < originalEnemyHealth) {
+        console.log("\n===============================");
         console.log("\nYou have " + pcHealth + " HP");
         console.log("\nYour enemy is healthy!");
         console.log("\n===============================");
         turnChecker();
     }
+    // else if (enemyHealth = originalEnemyHealth) {
+    //     console.log("\n===============================");
+    //     console.log("\nYou have " + pcHealth + " HP");
+    //     console.log("\nYour enemy remains undamaged!");
+    //     console.log("\n===============================");
+    //     turnChecker();
+    // }
+
     else if (enemyHealth <= 0 && pcHealth >= 0) {
-        console.log("===============================");
+        console.log("\n===============================");
         console.log("\nYou have " + pcHealth + " HP");
         console.log("\nYour enemy is dead! Well done!");
         console.log("\n===============================");
@@ -356,7 +377,20 @@ function enemyTurn() {
                     pcTurn = true;
                     healthCheck();
                 }
-                enemyAttack = Math.floor(Math.random() * 20) + 1 + 6;
+            }
+            enemyD20 = Math.floor(Math.random() * 20) + 1
+            enemyAttack = enemyD20 + 6;
+            if (enemyD20 === 20) {
+                var enemyDice = Math.floor(Math.random() * 6) + 1;
+                enemyDamage = enemyDice * 2 + 4;
+                console.log("=========================");
+                console.log("You've been crit for " + enemyDamage + " damage!!");
+                console.log("=========================");
+                pcHealth -= enemyDamage;
+                pcTurn = true;
+                healthCheck();
+            }
+            else {
                 console.log("==========================");
                 console.log("A " + enemyAttack + " was rolled to hit.");
                 console.log("==========================");
