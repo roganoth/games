@@ -114,7 +114,6 @@ function healthCheck() {
     }
 }
 
-
 function hitChecker(attacker, target) {
     if (attacker >= target) {
         damage = true;
@@ -303,7 +302,7 @@ function combatRoundMage() {
 
 function enemyTurn() {
     if (enemyType === "Allosaurus") {
-        enemyD20 = Math.floor(Math.random() * 20) + 1
+        var enemyD20 = Math.floor(Math.random() * 20) + 1
         enemyAttack = enemyD20 + 6;
         if (enemyD20 === 20) {
             var enemyDice = Math.floor(Math.random() * 10) + 1;
@@ -318,7 +317,7 @@ function enemyTurn() {
             console.log("==========================");
             console.log("A " + enemyAttack + " was rolled to hit.");
             console.log("==========================");
-            hitChecker();
+            hitChecker(enemyAttack, pcAC);
             if (damage === true) {
                 enemyDamage = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + 4;
                 console.log("==========================");
@@ -330,7 +329,7 @@ function enemyTurn() {
             }
         }
         if (enemyType === "Brown Bear") {
-            enemyD20 = Math.floor(Math.random() * 20) + 1
+            var enemyD20 = Math.floor(Math.random() * 20) + 1
             enemyAttack = enemyD20 + 6;
             if (enemyD20 === 20) {
                 var enemyDice = Math.floor(Math.random() * 8) + 1;
@@ -346,9 +345,10 @@ function enemyTurn() {
                 console.log("==========================");
                 console.log("A " + enemyAttack + " was rolled to hit.");
                 console.log("==========================");
-                hitChecker();
+                hitChecker(enemyAttack, pcAC);
                 if (damage === true) {
-                    enemyDamage = Math.floor(Math.random() * 8) + 1 + 4;
+                    var enemyDice = Math.floor(Math.random() * 8) + 1
+                    enemyDamage = enemyDice + 4;
                     console.log("==========================");
                     console.log("You been hit for " + enemyDamage + " damage!");
                     console.log("==========================");
@@ -360,9 +360,10 @@ function enemyTurn() {
                 console.log("==========================");
                 console.log("A " + enemyAttack + " was rolled to hit.");
                 console.log("==========================");
-                hitChecker();
+                hitChecker(enemyAttack, pcAC);
                 if (damage === true) {
-                    enemyDamage = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1 + 4;
+                    var enemyDice = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1
+                    enemyDamage = enemyDice + 4;
                     console.log("==========================");
                     console.log("You been hit for " + enemyDamage + " damage!");
                     console.log("==========================");
@@ -373,7 +374,7 @@ function enemyTurn() {
             }
         }
         else if (enemyType === "Duergar") {
-            enemyD20 = Math.floor(Math.random() * 20) + 1
+            var enemyD20 = Math.floor(Math.random() * 20) + 1
             enemyAttack = enemyD20 + 4;
             if (enemyD20 === 20) {
                 var enemyDice = Math.floor(Math.random() * 8) + 1;
@@ -389,7 +390,7 @@ function enemyTurn() {
                 console.log("==========================");
                 console.log("A " + enemyAttack + " was rolled to hit.");
                 console.log("==========================");
-                hitChecker();
+                hitChecker(enemyAttack, pcAC);
                 if (damage === true) {
                     enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
                     console.log("==========================");
