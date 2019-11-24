@@ -244,7 +244,7 @@ function combatRoundMage() {
             }
         ]).then(function (fight) {
             if (fight.Actions === "Chromatic Orb") {
-                fight.choices.splice(0);
+                fight.choices.splice(0,1);
                 console.log(fight.choices);
                 var pcD20 = Math.floor(Math.random() * 20) + 1;
                 pcAttack = pcD20;
@@ -331,7 +331,6 @@ function enemyTurn() {
             console.log("=========================");
             console.log("You've been crit for " + enemyDamage + " damage!!");
             console.log("=========================");
-            pcTurn = true;
             healthCheck();
         }
         else {
@@ -345,96 +344,91 @@ function enemyTurn() {
                 console.log("You been hit for " + enemyDamage + " damage!");
                 console.log("==========================");
                 pcHealth -= enemyDamage;
-                pcTurn = true;
                 healthCheck();
-            }
-        }
-        if (enemyType === "Brown Bear") {
-            var enemyD20 = Math.floor(Math.random() * 20) + 1
-            enemyAttack = enemyD20 + 6;
-            if (enemyD20 === 20) {
-                var enemyDice = Math.floor(Math.random() * 8) + 1;
-                enemyDamage = enemyDice * 2 + 4;
-                console.log("=========================");
-                console.log("You've been crit for " + enemyDamage + " damage!!");
-                console.log("=========================");
-                pcHealth -= enemyDamage;
-                pcTurn = true;
-                healthCheck();
-            }
-            else {
-                console.log("==========================");
-                console.log("A " + enemyAttack + " was rolled to hit.");
-                console.log("==========================");
-                hitChecker(enemyAttack, pcAC);
-                if (damage === true) {
-                    var enemyDice = Math.floor(Math.random() * 8) + 1
-                    enemyDamage = enemyDice + 4;
-                    console.log("==========================");
-                    console.log("You been hit for " + enemyDamage + " damage!");
-                    console.log("==========================");
-                    pcHealth -= enemyDamage;
-                    pcTurn = true;
-                    healthCheck();
-                }
-            }
-            enemyD20 = Math.floor(Math.random() * 20) + 1
-            enemyAttack = enemyD20 + 6;
-            if (enemyD20 === 20) {
-                var enemyDice = Math.floor(Math.random() * 6) + 1;
-                enemyDamage = enemyDice * 2 + 4;
-                console.log("=========================");
-                console.log("You've been crit for " + enemyDamage + " damage!!");
-                console.log("=========================");
-                pcHealth -= enemyDamage;
-                pcTurn = true;
-                healthCheck();
-            }
-            else {
-                console.log("==========================");
-                console.log("A " + enemyAttack + " was rolled to hit.");
-                console.log("==========================");
-                hitChecker(enemyAttack, pcAC);
-                if (damage === true) {
-                    var enemyDice = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1
-                    enemyDamage = enemyDice + 4;
-                    console.log("==========================");
-                    console.log("You been hit for " + enemyDamage + " damage!");
-                    console.log("==========================");
-                    pcHealth -= enemyDamage;
-                    pcTurn = true;
-                    healthCheck();
-                }
-            }
-        }
-        else if (enemyType === "Duergar") {
-            var enemyD20 = Math.floor(Math.random() * 20) + 1
-            enemyAttack = enemyD20 + 4;
-            if (enemyD20 === 20) {
-                var enemyDice = Math.floor(Math.random() * 8) + 1;
-                enemyDamage = enemyDice * 2 + 2;
-                console.log("=========================");
-                console.log("You've been crit for " + enemyDamage + " damage!!");
-                console.log("=========================");
-                pcHealth -= enemyDamage;
-                pcTurn = true;
-                healthCheck();
-            }
-            else {
-                console.log("==========================");
-                console.log("A " + enemyAttack + " was rolled to hit.");
-                console.log("==========================");
-                hitChecker(enemyAttack, pcAC);
-                if (damage === true) {
-                    enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
-                    console.log("==========================");
-                    console.log("You been hit for " + enemyDamage + " damage!");
-                    console.log("==========================");
-                    pcHealth -= enemyDamage;
-                    pcTurn = true; 0
-                    healthCheck();
-                }
             }
         }
     }
+    else if (enemyType === "Brown Bear") {
+        var enemyD20 = Math.floor(Math.random() * 20) + 1
+        enemyAttack = enemyD20 + 6;
+        if (enemyD20 === 20) {
+            var enemyDice = Math.floor(Math.random() * 8) + 1;
+            enemyDamage = enemyDice * 2 + 4;
+            console.log("=========================");
+            console.log("You've been crit for " + enemyDamage + " damage!!");
+            console.log("=========================");
+            pcHealth -= enemyDamage;
+            healthCheck();
+        }
+        else {
+            console.log("==========================");
+            console.log("A " + enemyAttack + " was rolled to hit.");
+            console.log("==========================");
+            hitChecker(enemyAttack, pcAC);
+            if (damage === true) {
+                var enemyDice = Math.floor(Math.random() * 8) + 1
+                enemyDamage = enemyDice + 4;
+                console.log("==========================");
+                console.log("You been hit for " + enemyDamage + " damage!");
+                console.log("==========================");
+                pcHealth -= enemyDamage;
+                healthCheck();
+            }
+        }
+        enemyD20 = Math.floor(Math.random() * 20) + 1
+        enemyAttack = enemyD20 + 6;
+        if (enemyD20 === 20) {
+            var enemyDice = Math.floor(Math.random() * 6) + 1;
+            enemyDamage = enemyDice * 2 + 4;
+            console.log("=========================");
+            console.log("You've been crit for " + enemyDamage + " damage!!");
+            console.log("=========================");
+            pcHealth -= enemyDamage;
+            healthCheck();
+        }
+        else {
+            console.log("==========================");
+            console.log("A " + enemyAttack + " was rolled to hit.");
+            console.log("==========================");
+            hitChecker(enemyAttack, pcAC);
+            if (damage === true) {
+                var enemyDice = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1
+                enemyDamage = enemyDice + 4;
+                console.log("==========================");
+                console.log("You been hit for " + enemyDamage + " damage!");
+                console.log("==========================");
+                pcHealth -= enemyDamage;
+                healthCheck();
+            }
+        }
+    }
+    else if (enemyType === "Duergar") {
+        var enemyD20 = Math.floor(Math.random() * 20) + 1
+        enemyAttack = enemyD20 + 4;
+        if (enemyD20 === 20) {
+            var enemyDice = Math.floor(Math.random() * 8) + 1;
+            enemyDamage = enemyDice * 2 + 2;
+            console.log("=========================");
+            console.log("You've been crit for " + enemyDamage + " damage!!");
+            console.log("=========================");
+            pcHealth -= enemyDamage;
+            healthCheck();
+        }
+        else {
+            console.log("==========================");
+            console.log("A " + enemyAttack + " was rolled to hit.");
+            console.log("==========================");
+            hitChecker(enemyAttack, pcAC);
+            if (damage === true) {
+                enemyDamage = Math.floor(Math.random() * 8) + 1 + 2;
+                console.log("==========================");
+                console.log("You been hit for " + enemyDamage + " damage!");
+                console.log("==========================");
+                pcHealth -= enemyDamage;
+                healthCheck();
+            }
+        }
+    }
+
+    pcTurn = true;
 }
